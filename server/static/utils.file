@@ -1,0 +1,42 @@
+package utils
+
+import (
+	"github.com/gin-gonic/gin"
+)
+
+type Response struct {
+	Code int         `json:"code"`
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
+}
+
+func ResSuccessJson(ctx *gin.Context, msg string, data interface{}) {
+	response := Response{
+		Code: 200,
+		Msg:  msg,
+		Data: data,
+	}
+	ctx.JSON(200, response)
+	return
+}
+
+//500
+func Res500Json(ctx *gin.Context, err error, data interface{}) {
+	response := Response{
+		Code: 500,
+		Msg:  err.Error(),
+		Data: data,
+	}
+	ctx.JSON(200, response)
+	return
+}
+
+func ResErrJson(ctx *gin.Context,code int, err error, data interface{}) {
+	response := Response{
+		Code: code,
+		Msg:  err.Error(),
+		Data: data,
+	}
+	ctx.JSON(200, response)
+	return
+}

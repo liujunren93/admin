@@ -50,12 +50,24 @@ func buildSearchForm(componenters ...component.Componenter) string {
 		bufAdvanced.WriteString(t.Multiple(2) + "</template>\n")
 	}
 	buf.WriteString(bufAdvanced.String())
+	if buf.Len() != 0 {
+		buf.WriteString(t.Multiple(2) +`<a-col :md="!advanced && 8 || 24" :sm="24">
+              <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
+                <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
+                <a-button style="margin-left: 8px" @click="() => this.queryParam = {}">重置</a-button>
+                <a @click="toggleAdvanced" style="margin-left: 8px">
+                  {{ advanced ? '收起' : '展开' }}
+                  <a-icon :type="advanced ? 'up' : 'down'"/>
+                </a>
+              </span>
+            </a-col>`)
+	}
 	return buf.String()
 }
 
 //头部操作
 func buildTopOperator(permission string) string {
-	return fmt.Sprintf("\t"+`<a-button type="primary" icon="plus"  v-if="$auth('%s.add')" @click="handleAdd">新建</a-button>
+	return fmt.Sprintf("\t\t"+`<a-button type="primary" icon="plus"  v-if="$auth('%s.add')" @click="handleAdd">新建</a-button>
         <a-dropdown v-action:edit v-if="selectedRowKeys.length > 0">
           <a-menu slot="overlay">
             <a-menu-item key="1"  v-if="$auth('%s.delBatch')"><a-icon type="delete" />删除</a-menu-item>
@@ -94,18 +106,18 @@ func getSearchComponent(page *page, dom core.Dom) {
 }
 func buildTable(permission string) string {
 	buf := strings.Builder{}
-	buf.WriteString(fmt.Sprintf(`      <a  v-if="$auth('%s.edit')" @click="handleEdit(record)">编辑</a>
-            <a-divider  v-if="$auth('%s.edit')" type="vertical" />
-            <a v-if="$auth('%s.del')" @click="handleSub(record)">删除</a>`, permission, permission, permission))
+	buf.WriteString(fmt.Sprintf("\t\t"+`<a  v-if="$auth('%s.edit')" @click="handleEdit(record)">编辑</a>
+		<a-divider  v-if="$auth('%s.edit')" type="vertical" />
+		<a v-if="$auth('%s.del')" @click="handleSub(record)">删除</a>`, permission, permission, permission))
 	return buf.String()
 }
 
 func newColumn(title, name string) string {
 	buf := strings.Builder{}
 	buf.WriteString("{")
-	buf.WriteString(fmt.Sprintf("title:'%s'", title))
-	buf.WriteString(fmt.Sprintf("dataIndex:'%s'", name))
-	buf.WriteString(fmt.Sprintf("key:'%s'", name))
+	buf.WriteString(fmt.Sprintf("\ttitle:'%s'\n", title))
+	buf.WriteString(fmt.Sprintf("\tdataIndex:'%s'\n", utils.SnakeString(name)))
+	buf.WriteString(fmt.Sprintf("\tkey:'%s'\n",  utils.SnakeString(name)))
 	buf.WriteString("}")
 	return buf.String()
 }
@@ -115,7 +127,7 @@ func buildColumn(field []core.Field) string {
 	for _, c := range field {
 		columns = append(columns, newColumn(c.HName, c.Name))
 	}
-	return strings.Join(columns, "\n")
+	return strings.Join(columns, ",\n")
 }
 
 

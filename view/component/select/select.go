@@ -37,7 +37,7 @@ func (s *simple) Html(t string) string {
 	} else {
 		buf.WriteString(utils2.Decorator(s.Name, s.Label+"不能为空", s.DefVal, s.IsRequired))
 	}
-	buf.WriteString(fmt.Sprintf(":options=%q", s.option))
-	buf.WriteString(fmt.Sprintf("\nplaceholder='请选择%s' />", s.Label))
+	buf.WriteString(fmt.Sprintf(" :options=%q", s.option))
+	buf.WriteString(fmt.Sprintf(" placeholder=\"请选择%s\" />", s.Label))
 	return buf.String()
 }

@@ -37,11 +37,6 @@ func TestStatic(t *testing.T) {
 
 	path := core.ParsePath("./test")
 
-	for _, group := range path {
-		for _, dom := range group.List {
-			table.NewPage(*dom)
-		}
-
-	}
+table.NewPage(path)
 
 }

@@ -37,6 +37,6 @@ func TestStatic(t *testing.T) {
 
 	path := core.ParsePath("./test")
 
-table.NewPage(path)
+table.NewPage("./tt",path)
 
 }

@@ -14,6 +14,7 @@ import (
 )
 
 type page struct {
+	name        string
 	search      string
 	topOperator string
 	table       string
@@ -22,7 +23,9 @@ type page struct {
 	importStr   []string
 	method      []string
 }
+
 const searchItem = "<a-form-item label=\"%s\"> \n %s \n \t\t\t</a-form-item>\n"
+
 func buildSearchForm(componenters ...component.Componenter) string {
 
 	if len(componenters) == 0 {
@@ -51,7 +54,7 @@ func buildSearchForm(componenters ...component.Componenter) string {
 	}
 	buf.WriteString(bufAdvanced.String())
 	if buf.Len() != 0 {
-		buf.WriteString(t.Multiple(2) +`<a-col :md="!advanced && 8 || 24" :sm="24">
+		buf.WriteString(t.Multiple(2) + `<a-col :md="!advanced && 8 || 24" :sm="24">
               <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
                 <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
                 <a-button style="margin-left: 8px" @click="() => this.queryParam = {}">重置</a-button>
@@ -79,7 +82,9 @@ func buildTopOperator(permission string) string {
 }
 func getSearchComponent(page *page, dom core.Dom) {
 	var components []component.Componenter
-	page.importStr = append(page.importStr, fmt.Sprintf("import { getList } from '@/api/%s'", dom.Name) )
+
+	page.importStr = append(page.importStr, fmt.Sprintf("import { getList } from '@/api/%s'", dom.Name))
+
 	for _, field := range dom.Fields {
 
 		compile := regexp.MustCompile("select\\((\\w*)\\)")
@@ -89,7 +94,7 @@ func getSearchComponent(page *page, dom core.Dom) {
 			selectName := findString[1]
 			components = append(components, _select.NewSimple(field.Name, field.HName, "queryParam."+field.Name, "", false, selectName+"Data"))
 			if !json.Valid([]byte(selectName)) {
-				upSelectName:=utils.UpFirst(selectName)
+				upSelectName := utils.UpFirst(selectName)
 				page.importStr = append(page.importStr, fmt.Sprintf("import { getList as get%sList } from '@/api/%s'", upSelectName, upSelectName))
 				page.data = append(page.data, fmt.Sprintf(`   %sData: () => {
         return  get%sList ()
@@ -98,7 +103,7 @@ func getSearchComponent(page *page, dom core.Dom) {
           })
       },`, selectName, upSelectName))
 			}
-		}else if field.HSearch != "" {
+		} else if field.HSearch != "" {
 			components = append(components, input.NewInput(field.Name, field.HName, "queryParam."+field.Name, "", false))
 		}
 	}
@@ -108,17 +113,17 @@ func buildTable(permission string) string {
 	buf := strings.Builder{}
 	buf.WriteString(fmt.Sprintf("\t\t"+`<a  v-if="$auth('%s.edit')" @click="handleEdit(record)">编辑</a>
 		<a-divider  v-if="$auth('%s.edit')" type="vertical" />
-		<a v-if="$auth('%s.del')" @click="handleSub(record)">删除</a>`, permission, permission, permission))
+		<a v-if="$auth('%s.del')" @click="handleDelete(record.id)">删除</a>`, permission, permission, permission))
 	return buf.String()
 }
 
 func newColumn(title, name string) string {
 	buf := strings.Builder{}
-	buf.WriteString("{")
-	buf.WriteString(fmt.Sprintf("\ttitle:'%s'\n", title))
-	buf.WriteString(fmt.Sprintf("\tdataIndex:'%s'\n", utils.SnakeString(name)))
-	buf.WriteString(fmt.Sprintf("\tkey:'%s'\n",  utils.SnakeString(name)))
-	buf.WriteString("}")
+	buf.WriteString("\t{")
+	buf.WriteString(fmt.Sprintf("\t\ttitle:'%s'\n", title))
+	buf.WriteString(fmt.Sprintf("\t\tdataIndex:'%s'\n", utils.SnakeString(name)))
+	buf.WriteString(fmt.Sprintf("\t\tkey:'%s'\n", utils.SnakeString(name)))
+	buf.WriteString("\t}")
 	return buf.String()
 }
 
@@ -130,14 +135,32 @@ func buildColumn(field []core.Field) string {
 	return strings.Join(columns, ",\n")
 }
 
-
-
 func parseDom(dom core.Dom) page {
 	var p page
+	p.name = dom.Name
 	getSearchComponent(&p, dom)
 	p.topOperator = buildTopOperator(dom.Name)
 	p.table = buildTable(dom.Name)
 	p.column = buildColumn(dom.Fields)
-
+	j := 0
+	found1 := make(map[string]struct{})
+	for _, s := range p.importStr {
+		if _,ok:=found1[s];!ok {
+			found1[s]= struct{}{}
+			p.importStr[j]=s
+			j++
+		}
+	}
+	p.importStr=p.importStr[:j]
+	i := 0
+	found2 := make(map[string]struct{})
+	for _, s := range p.data {
+		if _,ok:=found2[s];!ok {
+			found2[s]= struct{}{}
+			p.data[i]=s
+			i++
+		}
+	}
+	p.data=p.data[:i]
 	return p
 }

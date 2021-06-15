@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/liujunren93/admin/core"
 	"github.com/liujunren93/admin/server"
+	"github.com/liujunren93/admin/view/page/api"
 	"github.com/liujunren93/admin/view/page/table"
 	"go/ast"
 	"go/parser"
@@ -38,5 +39,12 @@ func TestStatic(t *testing.T) {
 	path := core.ParsePath("./test")
 
 table.NewPage("./tt",path)
+
+}
+func TestApi(t *testing.T) {
+
+	path := core.ParsePath("./test")
+
+	api.BuildApi("./tt/router",path)
 
 }

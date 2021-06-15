@@ -4,32 +4,31 @@
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
-            %s
-
+  %s
           </a-row>
         </a-form>
       </div>
 
       <div class="table-operator">
-        %s
+%s
       </div>
 
       <s-table
-        ref="table"
-        size="default"
-        rowKey="key"
-        :columns="columns"
-        :data="loadData"
-        :alert="true"
-        :rowSelection="rowSelection"
-        showPagination="auto"
+              ref="table"
+              size="default"
+              rowKey="key"
+              :columns="columns"
+              :data="loadData"
+              :alert="true"
+              :rowSelection="rowSelection"
+              showPagination="auto"
       >
         <span slot="serial" slot-scope="text, record, index">
           {{ index + 1 }}
         </span>
         <span slot="action" slot-scope="text, record">
           <template>
-            %s
+%s
           </template>
         </span>
       </s-table>
@@ -42,8 +41,6 @@
 import moment from 'moment'
 import { STable } from '@/components'
 %s
-import StepByStepModal from './modules/StepByStepModal'
-import CreateForm from './modules/CreateForm'
 
 const columns = [
 %s
@@ -53,31 +50,29 @@ export default {
   name: 'TableList',
   components: {
     STable,
-    CreateForm,
-    StepByStepModal
   },
   data () {
     this.columns = columns
     return {
-      // create model
-      confirmLoading: false,
-      // 高级搜索 展开/关闭
-      advanced: false,
-      // 查询参数
-      queryParam: {},
-      // 加载数据方法 必须为 Promise 对象
-      loadData: parameter => {
-        const requestParameters = Object.assign({}, parameter, this.queryParam)
-        console.log('loadData request parameters:', requestParameters)
-        return getList(requestParameters)
-          .then(res => {
-            console.log(res)
-            return res.result
-          })
-      },
-      %s
-      selectedRowKeys: [],
-      selectedRows: []
+              // create model
+              confirmLoading: false,
+              // 高级搜索 展开/关闭
+              advanced: false,
+              // 查询参数
+              queryParam: {},
+              // 加载数据方法 必须为 Promise 对象
+              loadData: parameter => {
+                const requestParameters = Object.assign({}, parameter, this.queryParam)
+                console.log('loadData request parameters:', requestParameters)
+                return getList(requestParameters)
+                        .then(res => {
+                          console.log(res)
+                          return res.result
+                        })
+              },
+%s
+            selectedRowKeys: [],
+            selectedRows: []
     }
   },
 
@@ -90,20 +85,20 @@ export default {
     }
   },
   methods: {
-      handleDelete (id) {
-          const _this = this
-           this.$confirm({
-              title: '你确定删除这个选项吗?',
-              content: '删除后将不能恢复，我们将记录您的炒作行为！',
-              okText: 'Yes',
-              okType: 'danger',
-              cancelText: 'No',
-              onOk () {
-                del(id).then(res => {
-                      _this.getList()
-                })
-              }
-            })
+    handleDelete (id) {
+      const _this = this
+      this.$confirm({
+        title: '你确定删除这个选项吗?',
+        content: '删除后将不能恢复，我们将记录您的炒作行为！',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk () {
+          del(id).then(res => {
+            _this.getList()
+          })
+        }
+      })
     },
     onSelectChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys

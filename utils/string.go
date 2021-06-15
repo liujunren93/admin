@@ -51,3 +51,13 @@ func TagParse(str string) map[string]string {
 
 	return tagMap
 }
+
+func uniqueSliceStr(data []string)[]string  {
+	i:=0
+	var uniqueMap =make(map[string]struct{})
+	for _, da := range data {
+		if _,ok:=uniqueMap[da];!ok {
+
+		}
+	}
+}

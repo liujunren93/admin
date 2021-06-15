@@ -15,11 +15,15 @@ type checkbox struct {
 	component.Component
 }
 
-func (c *checkbox) Import() string {
+func (c *checkbox) GetComponent() string {
 	return ""
 }
 
-func (c *checkbox) Html(t string) string {
+func (c *checkbox) GetImport() string {
+	return ""
+}
+
+func (c *checkbox) GetHtml(t string) string {
 	return fmt.Sprintf(base, c.DefVal, c.Label)
 }
 
@@ -35,6 +39,10 @@ type group struct {
 	component.Component
 }
 
+func (g *group) GetComponent() string {
+	return ""
+}
+
 func NewGroup(name, bindModel, label string, val interface{}, required bool, checkboxs ...component.Componenter) component.Componenter {
 	return &group{
 		checkboxs: checkboxs,
@@ -48,7 +56,7 @@ func NewGroup(name, bindModel, label string, val interface{}, required bool, che
 	}
 }
 
-func (g *group) Html(t string) string {
+func (g *group) GetHtml(t string) string {
 
 	buf := strings.Builder{}
 	buf.WriteString(fmt.Sprintf(t+"<a-checkbox-group\n%s\tname=%q", t, g.Name))
@@ -60,13 +68,55 @@ func (g *group) Html(t string) string {
 	}
 	buf.WriteString(">\n")
 	for _, componenter := range g.checkboxs {
-		buf.WriteString("\t\t"+t+ componenter.Html(""))
+		buf.WriteString("\t\t"+t+ componenter.GetHtml(""))
 		buf.WriteString("\n")
 	}
 	buf.WriteString(t+"</a-checkbox-group>")
 	return buf.String()
 }
 
-func (g *group) Import() string {
+func (g *group) GetImport() string {
 	return ""
+}
+
+type groupWithOpts struct {
+	option string
+	component.Component
+}
+
+func (g groupWithOpts) GetComponent() string {
+	return ""
+}
+
+func (g groupWithOpts) GetImport() string {
+	return ""
+}
+
+func (g groupWithOpts) GetHtml(t string) string {
+
+	buf := strings.Builder{}
+	buf.WriteString(fmt.Sprintf(t+"<a-checkbox-group\n%s\tname=%q", t, g.Name))
+	if g.BindModel != "" {
+		buf.WriteString(fmt.Sprintf("\n%s\tv-model=%q", t, g.BindModel))
+	} else {
+		buf.WriteString("\n\t"+t)
+		buf.WriteString(utils2.Decorator(g.Name, "请选择"+g.Label, g.DefVal, g.IsRequired))
+	}
+	buf.WriteString(fmt.Sprintf(" :options=%q", g.option))
+	buf.WriteString("/>\n")
+
+	return buf.String()
+}
+
+func NewGroupWithOpts(name, label, bindModel string, val interface{}, required bool,opt string) component.Componenter {
+	return &groupWithOpts{
+		option: opt,
+		Component: component.Component{
+			IsRequired: required,
+			BindModel:  bindModel,
+			Name:       name,
+			DefVal:     val,
+			Label:      label,
+		},
+	}
 }

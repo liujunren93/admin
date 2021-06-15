@@ -1,6 +1,7 @@
 package core
 
 import (
+	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"
@@ -135,8 +136,11 @@ func parseField(st *ast.StructType) (fds []Field, search bool) {
 		}
 
 		fd.Name = field.Names[0].Name
-		tag := ParseTag(field.Tag.Value)
-		fd.Tag = append(fd.Tag, tag[tagBind])
+
+		if lookup, ok := Lookup(field.Tag.Value, TagBind);ok {
+			fd.Tag = append(fd.Tag,fmt.Sprintf("%s:%s",TagBind,lookup))
+		}
+
 		if ident, ok := field.Type.(*ast.Ident); ok {
 			fd.Type = ident.Name
 		}
@@ -178,3 +182,110 @@ func ParseTag(tag string) map[string]string {
 	}
 	return setting
 }
+
+func  Lookup(tag, key string) (value string, ok bool) {
+	// When modifying this code, also update the validateStructTag code
+	// in cmd/vet/structtag.go.
+
+	for tag != "" {
+		// Skip leading space.
+		i := 0
+		for i < len(tag) && tag[i] == ' ' {
+			i++
+		}
+		tag = tag[i:]
+		if tag == "" {
+			break
+		}
+
+		// Scan to colon. A space, a quote or a control character is a syntax error.
+		// Strictly speaking, control chars include the range [0x7f, 0x9f], not just
+		// [0x00, 0x1f], but in practice, we ignore the multi-byte control characters
+		// as it is simpler to inspect the tag's bytes than the tag's runes.
+		i = 0
+		for i < len(tag) && tag[i] > ' ' && tag[i] != ':' && tag[i] != '"' && tag[i] != 0x7f {
+			i++
+		}
+		if i == 0 || i+1 >= len(tag) || tag[i] != ':' || tag[i+1] != '"' {
+			break
+		}
+		name := string(tag[:i])
+		tag = tag[i+1:]
+
+		// Scan quoted string to find value.
+		i = 1
+		for i < len(tag) && tag[i] != '"' {
+			if tag[i] == '\\' {
+				i++
+			}
+			i++
+		}
+		if i >= len(tag) {
+			break
+		}
+		qvalue := string(tag[:i+1])
+		tag = tag[i+1:]
+
+		if key == name {
+			value, err := strconv.Unquote(qvalue)
+			if err != nil {
+				break
+			}
+			return value, true
+		}
+	}
+	return "", false
+}
+
+func  LookupMap(tag string) map[string]string{
+	// When modifying this code, also update the validateStructTag code
+	// in cmd/vet/structtag.go.
+	var tagMap=make(map[string]string)
+	for tag != "" {
+		// Skip leading space.
+		i := 0
+		for i < len(tag) && tag[i] == ' ' {
+			i++
+		}
+		tag = tag[i:]
+		if tag == "" {
+			break
+		}
+
+		// Scan to colon. A space, a quote or a control character is a syntax error.
+		// Strictly speaking, control chars include the range [0x7f, 0x9f], not just
+		// [0x00, 0x1f], but in practice, we ignore the multi-byte control characters
+		// as it is simpler to inspect the tag's bytes than the tag's runes.
+		i = 0
+		for i < len(tag) && tag[i] > ' ' && tag[i] != ':' && tag[i] != '"' && tag[i] != 0x7f {
+			i++
+		}
+		if i == 0 || i+1 >= len(tag) || tag[i] != ':' || tag[i+1] != '"' {
+			break
+		}
+		name := string(tag[:i])
+		tag = tag[i+1:]
+
+		// Scan quoted string to find value.
+		i = 1
+		for i < len(tag) && tag[i] != '"' {
+			if tag[i] == '\\' {
+				i++
+			}
+			i++
+		}
+		if i >= len(tag) {
+			break
+		}
+		qvalue := string(tag[:i+1])
+		tag = tag[i+1:]
+		value, err := strconv.Unquote(qvalue)
+		if err != nil {
+			break
+		}
+		tagMap[name]=value
+
+	}
+	return tagMap
+}
+

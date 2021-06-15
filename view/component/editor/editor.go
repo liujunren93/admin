@@ -12,6 +12,11 @@ type editor struct {
 	component.Component
 }
 
+
+func (e *editor) GetComponent() string {
+	return "Editor"
+}
+
 func NewEditor(name, label string, val interface{}, required bool) component.Componenter {
 	return &editor{
 		Component: component.Component{
@@ -23,10 +28,10 @@ func NewEditor(name, label string, val interface{}, required bool) component.Com
 	}
 }
 
-func (e *editor) Html(t string) string {
+func (e *editor) GetHtml(t string) string {
 	return fmt.Sprintf(t+base, utils2.Decorator(e.Name, e.Label+"不能为空", e.DefVal, e.IsRequired),  "请输入"+e.Label)
 }
 
-func (e *editor) Import() string {
+func (e *editor) GetImport() string {
 	return `import Editor from '@/components/Editor/tinymce/Tinymce'`
 }

@@ -12,6 +12,11 @@ type simple struct {
 	component.Component
 }
 
+func (_ *simple) GetComponent() string {
+	panic("implement me")
+}
+
+
 func NewSimple(name, label, bindModel string, val interface{}, required bool, option string) component.Componenter {
 	return &simple{
 		option: option,
@@ -25,11 +30,11 @@ func NewSimple(name, label, bindModel string, val interface{}, required bool, op
 	}
 }
 
-func (_ *simple) Import() string {
+func (_ *simple) GetImport() string {
 	return ""
 }
 
-func (s *simple) Html(t string) string {
+func (s *simple) GetHtml(t string) string {
 	buf := strings.Builder{}
 	buf.WriteString(t+"<a-select ")
 	if s.BindModel != "" {

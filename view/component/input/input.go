@@ -15,6 +15,12 @@ type input struct {
 	component.Component
 }
 
+func (i *input) GetComponent() string {
+	return ""
+}
+
+
+
 func NewInput(name, label,bindModel string, val interface{}, required bool) component.Componenter {
 	return &input{
 		Component: component.Component{
@@ -38,10 +44,10 @@ func NewInputNumber(name, label ,bindModel string, val interface{}, required boo
 		},
 	}
 }
-func (i *input) Import() string {
+func (i *input) GetImport() string {
 	return ""
 }
-func (i *input) Html(t string) string {
+func (i *input) GetHtml(t string) string {
 	buf:=strings.Builder{}
 	if i._type == "number" {
 		buf.WriteString(t+"<a-input-number")

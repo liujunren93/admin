@@ -83,7 +83,7 @@ func buildTopOperator(permission string) string {
 func getSearchComponent(page *page, dom core.Dom) {
 	var components []component.Componenter
 
-	page.importStr = append(page.importStr, fmt.Sprintf("import { getList } from '@/api/%s'", dom.Name))
+	page.importStr = append(page.importStr, fmt.Sprintf("import { list } from '@/api/%s'", dom.Name))
 
 	for _, field := range dom.Fields {
 
@@ -92,16 +92,16 @@ func getSearchComponent(page *page, dom core.Dom) {
 
 		if len(findString) > 1 {
 			selectName := findString[1]
-			components = append(components, _select.NewSimple(field.Name, field.HName, "queryParam."+field.Name, "", false, selectName+"Data"))
+			components = append(components, _select.NewSimple(field.Name, field.HName, "queryParam."+field.Name, "", false, selectName))
 			if !json.Valid([]byte(selectName)) {
 				upSelectName := utils.UpFirst(selectName)
-				page.importStr = append(page.importStr, fmt.Sprintf("import { getList as get%sList } from '@/api/%s'", upSelectName, upSelectName))
-				page.data = append(page.data, fmt.Sprintf(`   %sData: () => {
-        return  get%sList ()
-          .then(res => {
-            return res.data
-          })
-      },`, selectName, upSelectName))
+				page.importStr = append(page.importStr, fmt.Sprintf("import { list as %sList } from '@/api/%s'", upSelectName, upSelectName))
+				page.data = append(page.data, fmt.Sprintf(`              %sData: () => {
+                      return  %sList ()
+                        .then(res => {
+                          return res.data
+                        })
+                    },`, utils.UcFirst(upSelectName),utils.UcFirst(upSelectName)))
 			}
 		} else if field.HSearch != "" {
 			components = append(components, input.NewInput(field.Name, field.HName, "queryParam."+field.Name, "", false))
@@ -119,10 +119,10 @@ func buildTable(permission string) string {
 
 func newColumn(title, name string) string {
 	buf := strings.Builder{}
-	buf.WriteString("\t{")
-	buf.WriteString(fmt.Sprintf("\t\ttitle:'%s'\n", title))
-	buf.WriteString(fmt.Sprintf("\t\tdataIndex:'%s'\n", utils.SnakeString(name)))
-	buf.WriteString(fmt.Sprintf("\t\tkey:'%s'\n", utils.SnakeString(name)))
+	buf.WriteString("\t{\n")
+	buf.WriteString(fmt.Sprintf("\t\ttitle:'%s',\n", title))
+	buf.WriteString(fmt.Sprintf("\t\tdataIndex:'%s',\n", utils.SnakeString(name)))
+	buf.WriteString(fmt.Sprintf("\t\tkey:'%s',\n", utils.SnakeString(name)))
 	buf.WriteString("\t}")
 	return buf.String()
 }

@@ -17,11 +17,15 @@ type radio struct {
 	component.Component
 }
 
-func (r *radio) Import() string {
+func (r *radio) GetComponent() string {
 	return ""
 }
 
-func (r *radio) Html(t string) string {
+func (r *radio) GetImport() string {
+	return ""
+}
+
+func (r *radio) GetHtml(t string) string {
 	return fmt.Sprintf(t+baseHtml, r.DefVal, r.Label)
 }
 
@@ -54,12 +58,14 @@ func NewGroup(name, label, bindModel string, val interface{}, required bool, rad
 		},
 	}
 }
-
-func (g *group) Import() string {
+func (g *group) GetComponent() string {
+	return ""
+}
+func (g *group) GetImport() string {
 	return ""
 }
 
-func (g *group) Html(t string) string {
+func (g *group) GetHtml(t string) string {
 	buf := strings.Builder{}
 	buf.WriteString(fmt.Sprintf(t+"<a-radio-group name='%s'\n", g.Name))
 	if g.BindModel != "" {
@@ -71,9 +77,51 @@ func (g *group) Html(t string) string {
 
 	for _, r := range g.radios {
 		buf.WriteString("\n\t\t")
-		buf.WriteString(r.Html(""))
+		buf.WriteString(r.GetHtml(""))
 	}
 	buf.WriteString("\n")
 	buf.WriteString(t+"</a-radio-group>")
+	return buf.String()
+}
+
+type groupWithOpts struct {
+	option string
+	component.Component
+}
+
+func (g groupWithOpts) GetComponent() string {
+	return ""
+}
+
+func NewGroupWithOpts(name, label, bindModel string, val interface{}, required bool,opt string) component.Componenter {
+	return &groupWithOpts{
+		option: opt,
+		Component: component.Component{
+			IsRequired: required,
+			BindModel:  bindModel,
+			Name:       name,
+			DefVal:     val,
+			Label:      label,
+		},
+	}
+}
+
+func (g groupWithOpts) GetImport() string {
+	panic("implement me")
+}
+
+func (g groupWithOpts) GetHtml(t string) string {
+	buf := strings.Builder{}
+	buf.WriteString(fmt.Sprintf(t+"<a-radio-group name='%s'\n", g.Name))
+	if g.BindModel != "" {
+		buf.WriteString(fmt.Sprintf(" v-model=%q", g.BindModel))
+	} else {
+		buf.WriteString(utils2.Decorator(g.Name, "请选择"+g.Label, g.DefVal, g.IsRequired))
+	}
+	buf.WriteString(fmt.Sprintf(" :options=%q", g.option))
+	buf.WriteString("/>")
+
+
+
 	return buf.String()
 }

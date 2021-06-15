@@ -11,6 +11,10 @@ type ranger struct {
 	component.Component
 }
 
+func (r ranger) GetComponent() string {
+	return ""
+}
+
 func NewRanger(name, bindModel, label string, val interface{}, required bool) component.Componenter {
 
 	return ranger{
@@ -24,11 +28,11 @@ func NewRanger(name, bindModel, label string, val interface{}, required bool) co
 	}
 }
 
-func (r ranger) Import() string {
+func (r ranger) GetImport() string {
 	return ""
 }
 
-func (r ranger) Html(t string) string {
+func (r ranger) GetHtml(t string) string {
 	buf := strings.Builder{}
 	buf.WriteString(t)
 	buf.WriteString(fmt.Sprintf(t+"<a-range-picker\n\t%sformat=\"YYYY-MM-DD HH:mm:ss\"",t))
@@ -46,11 +50,15 @@ type simple struct {
 	component.Component
 }
 
-func (s *simple) Import() string {
+func (s *simple) GetComponent() string {
 	return ""
 }
 
-func (s *simple) Html(t string) string {
+func (s *simple) GetImport() string {
+	return ""
+}
+
+func (s *simple) GetHtml(t string) string {
 	buf := strings.Builder{}
 	buf.WriteString(t+"<a-date-picker \n\t:show-time=\"{ format: 'HH:mm' }\"  \n\tformat=\"YYYY-MM-DD HH:mm\" \n" +
 		"\t:show-time=\"{ defaultValue: moment('00:00:00', 'HH:mm:ss') }\"  ")

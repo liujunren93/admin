@@ -17,7 +17,6 @@ func Decorator(name, msg string, defVal interface{}, isRequired bool) string {
 
 	var rule = ""
 	if isRequired {
-
 		rule = fmt.Sprintf(`rules: [{ required: true, message: '%s' }]`, msg)
 	}
 	if rule != "" {

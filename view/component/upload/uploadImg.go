@@ -12,6 +12,13 @@ type upImg struct {
 	component.Component
 }
 
+
+
+func (u upImg) GetComponent() string {
+	return "UpImg:UploadImg"
+}
+
+
 func NewUpImg(name, label string, val interface{}, required bool) component.Componenter {
 	return upImg{
 		Component: component.Component{
@@ -23,10 +30,10 @@ func NewUpImg(name, label string, val interface{}, required bool) component.Comp
 	}
 }
 
-func (u upImg) Import() string {
+func (u upImg) GetImport() string {
 	return `import UploadImg from '@/components/common/uploadImg'`
 }
 
-func (u upImg) Html(t string) string {
+func (u upImg) GetHtml(t string) string {
 	return fmt.Sprintf(base, utils2.Decorator(u.Name, "请上传"+u.Label, u.DefVal, u.IsRequired), "请上传"+u.Label)
 }

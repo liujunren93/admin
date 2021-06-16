@@ -10,7 +10,8 @@ const (
 	TypeUtils  = "utils"
 	TypeConf   = "conf"
 	TypeHView  = "hView"
-	TypeHApi   = "HApi"
+	TypeHApi   = "hApi"
+	TypeHRouter   = "hrouter"
 )
 
 var (
@@ -25,6 +26,6 @@ var (
 		TypeUtils:  "handler/utils",
 		TypeConf:   "conf",
 		TypeHView:  "src/views",
-		TypeHApi:   "src/api",
+		TypeHApi:   "src/config/routers",
 	}
 )

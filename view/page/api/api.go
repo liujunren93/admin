@@ -9,6 +9,7 @@ import (
 )
 
 func BuildApi(path string, groups []*core.Group) {
+	path+="/api/"
 	err := os.MkdirAll(path, 0766)
 	if err != nil {
 		panic(err)
@@ -31,5 +32,6 @@ func buildFile(path string, g *core.Group) {
 		create.WriteString(fmt.Sprintf("export function info (id,parameter) {\n   return http.get(api+'/'+id, parameter)\n}\n"))
 		create.WriteString(fmt.Sprintf("export function update (id,parameter) {\n   return http.put(api+'/'+id, parameter)\n}\n"))
 		create.WriteString(fmt.Sprintf("export function del (id,parameter) {\n   return http.delete(api+'/'+id, parameter)\n}\n"))
+		create.Close()
 	}
 }

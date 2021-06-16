@@ -25,7 +25,7 @@ func BuildInfo(path string,groups []*core.Group)  {
 				panic(err)
 			}
 			p := parseDom(*dom)
-			sprintf := fmt.Sprintf(info, p.formItem, strings.Join(p.importList, ",\n"), strings.Join(p.components, ",\n"), strings.Join(p.data, ",\n"))
+			sprintf := fmt.Sprintf(info, p.formItem, strings.Join(p.importList, "\n"), strings.Join(p.components, ",\n"), strings.Join(p.data, ",\n"))
 			_, err = create.WriteString(sprintf)
 			if err != nil {
 				panic(err)

@@ -16,7 +16,6 @@ func (_ *simple) GetComponent() string {
 	panic("implement me")
 }
 
-
 func NewSimple(name, label, bindModel string, val interface{}, required bool, option string) component.Componenter {
 	return &simple{
 		option: option,
@@ -36,7 +35,8 @@ func (_ *simple) GetImport() string {
 
 func (s *simple) GetHtml(t string) string {
 	buf := strings.Builder{}
-	buf.WriteString(t+"\t<a-select ")
+
+	buf.WriteString(t + "\t<a-select ")
 	if s.BindModel != "" {
 		buf.WriteString(fmt.Sprintf("v-model=%q", s.BindModel))
 	} else {

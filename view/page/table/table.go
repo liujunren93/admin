@@ -12,12 +12,12 @@ import (
 var table string
 
 
-func NewPage(path string,groups []*core.Group) {
-	os.MkdirAll(fmt.Sprintf("%s/%s",path,global.FilePath[global.TypeHView]),0766)
+func BuildPage(path string,groups []*core.Group) {
+
 	for _, group := range groups {
 		for _, dom := range group.List {
 			p := parseDom(*dom)
-			buildFile(path,p)
+			buildFile(path,dom.Name,p)
 		}
 
 	}
@@ -25,8 +25,10 @@ func NewPage(path string,groups []*core.Group) {
 
 }
 
-func buildFile(path string,p page)  {
-	create, err := os.Create(fmt.Sprintf("%s/%s/%s.vue",path,global.FilePath[global.TypeHView],p.name))
+func buildFile(path,name string,p page)  {
+	tablePath:=fmt.Sprintf("%s/%s/%s/",path,global.FilePath[global.TypeHView],name)
+	os.MkdirAll(tablePath,0766)
+	create, err := os.Create(tablePath+"/List.vue")
 	defer create.Close()
 	if err != nil {
 		panic(err)

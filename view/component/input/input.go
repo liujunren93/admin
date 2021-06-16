@@ -60,7 +60,7 @@ func (i *input) GetHtml(t string) string {
 	}else{
 		buf.WriteString(utils2.Decorator(i.Name, i.Label+"不能为空", i.DefVal, i.IsRequired))
 	}
-	buf.WriteString(fmt.Sprintf("\nplaceholder='请输入%s'",i.Label))
+	buf.WriteString(fmt.Sprintf(" placeholder='请输入%s'",i.Label))
 	buf.WriteString("/>")
 	return buf.String()
 }

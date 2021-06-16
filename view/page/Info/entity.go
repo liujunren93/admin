@@ -50,7 +50,7 @@ func build(dom core.Dom) page {
 			if !isJson {
 				p.importList = append(p.importList, fmt.Sprintf("import { list as %sList } from '@/api/%s'", utils.UcFirst(options), utils.UpFirst(options)))
 				p.data = append(p.data, fmt.Sprintf("\t"+`%sData: () => {return  %sList ().then(res => {return res.data	})	},`,
-	utils.UcFirst(options), utils.UcFirst(options)))
+				utils.UcFirst(options), utils.UcFirst(options)))
 			}
 		case "textarea" == field.HType:
 			components = append(components, textarea.NewTextArea(field.Name, field.HName, "", isRequired))
@@ -87,9 +87,10 @@ func buildItem(cs []component.Componenter) string {
 	buf := strings.Builder{}
 	var t base.T
 	for _, c := range cs {
-		buf.WriteString(fmt.Sprintf("\n    <a-form-item\n          :label=%q\n          :labelCol=\"{lg: {span: 7}, sm: {span: 7}}\"\n          :wrapperCol=\"{lg: {span: 10}, sm: {span: 17} }\"> \n", c.GetLabel()))
-		buf.WriteString(c.GetHtml(t.Multiple(1)))
-		buf.WriteString(" \n</a-form-item>")
+		buf.WriteString(fmt.Sprintf("\n\t\t<a-fo1rm-item\n          :label=%q\n          :labelCol=\"{lg: {span: 7}, sm: {span: 7}}\"\n          :wrapperCol=\"{lg: {span: 10}, sm: {span: 17} }\"> \n", c.GetLabel()))
+		buf.WriteString(c.GetHtml(t.Multiple(2)))
+		buf.WriteString("\n")
+		buf.WriteString("\t\t</a-form-item>")
 	}
 	return buf.String()
 }

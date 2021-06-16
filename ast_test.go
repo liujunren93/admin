@@ -35,18 +35,18 @@ func TestParsePath(t *testing.T) {
 	server.NewRoute(path...)
 
 }
-func TestStatic(t *testing.T) {
+func TestTable(t *testing.T) {
 
 	path := core.ParsePath("./test")
 
-table.NewPage("./tt",path)
+table.BuildPage("./tt",path)
 
 }
 func TestApi(t *testing.T) {
 
 	path := core.ParsePath("./test")
 
-	api.BuildApi("./tt/router",path)
+	api.BuildApi("./tt",path)
 
 }
 

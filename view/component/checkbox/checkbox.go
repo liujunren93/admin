@@ -102,7 +102,7 @@ func (g groupWithOpts) GetHtml(t string) string {
 		buf.WriteString("\n\t"+t)
 		buf.WriteString(utils2.Decorator(g.Name, "请选择"+g.Label, g.DefVal, g.IsRequired))
 	}
-	buf.WriteString(fmt.Sprintf(" :options=%q", g.option))
+	buf.WriteString(fmt.Sprintf(" :options=\"%s\"", g.option))
 	buf.WriteString("/>\n")
 
 	return buf.String()

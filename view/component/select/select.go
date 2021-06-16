@@ -36,13 +36,13 @@ func (_ *simple) GetImport() string {
 
 func (s *simple) GetHtml(t string) string {
 	buf := strings.Builder{}
-	buf.WriteString(t+"<a-select ")
+	buf.WriteString(t+"\t<a-select ")
 	if s.BindModel != "" {
 		buf.WriteString(fmt.Sprintf("v-model=%q", s.BindModel))
 	} else {
 		buf.WriteString(utils2.Decorator(s.Name, s.Label+"不能为空", s.DefVal, s.IsRequired))
 	}
-	buf.WriteString(fmt.Sprintf(" :options=%q", s.option))
+	buf.WriteString(fmt.Sprintf(" :options=\"%s\"", s.option))
 	buf.WriteString(fmt.Sprintf(" placeholder=\"请选择%s\" />", s.Label))
 	return buf.String()
 }

@@ -6,7 +6,7 @@ type Admin struct {
 	gorm.Model
 	//@curd:name=管理员;search=true;type=select(banner);sort=1
 	Name string `gorm:"type:varchar(100)" json:"name" binding:"required"`
-	//@curd:name=密码;search=true;type=select(banner);sort=2
+	//@curd:name=密码;search=true;type=select([{"label":"label","value":"value"},{"label":"label1","value":"value1"}]);sort=2
 	Password string  `gorm:"type:varchar(100)"json:"password"`
 }
 

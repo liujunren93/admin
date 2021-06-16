@@ -39,7 +39,7 @@ func UpFirst(str string) string {
 }
 
 func TagParse(str string) map[string]string {
-	str=strings.Trim(str,"\r\n")
+	str = strings.Trim(str, "\r\n")
 	var tagMap = map[string]string{}
 
 	split := strings.Split(str, ";\r\n")
@@ -52,12 +52,15 @@ func TagParse(str string) map[string]string {
 	return tagMap
 }
 
-func uniqueSliceStr(data []string)[]string  {
-	i:=0
-	var uniqueMap =make(map[string]struct{})
+func UniqueSliceStr(data []string) []string {
+	i := 0
+	var uniqueMap = make(map[string]struct{})
 	for _, da := range data {
-		if _,ok:=uniqueMap[da];!ok {
-
+		if _, ok := uniqueMap[da]; !ok {
+			data[i] = da
+			i++
 		}
+		uniqueMap[da]= struct{}{}
 	}
+	return data[:i]
 }

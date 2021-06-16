@@ -38,14 +38,14 @@ func buildSearchForm(componenters ...component.Componenter) string {
 		if i < 2 {
 			buf.WriteString(fmt.Sprintf("%s<a-col :md=\"8\" :sm=\"24\">", t.Multiple(2)))
 			buf.WriteString("\n" + t.Multiple(3))
-			buf.WriteString(fmt.Sprintf(searchItem, componenter.GetLabel(), componenter.Html(t.Multiple(4))))
+			buf.WriteString(fmt.Sprintf(searchItem, componenter.GetLabel(), componenter.GetHtml(t.Multiple(4))))
 			buf.WriteString(t.Multiple(2) + "</a-col>\n")
 		} else {
 			if bufAdvanced.Len() == 0 {
 				bufAdvanced.WriteString(t.Multiple(2) + "<template v-if=\"advanced\">\n")
 			}
 			bufAdvanced.WriteString(t.Multiple(3) + "<a-col :md=\"8\" :sm=\"24\">")
-			bufAdvanced.WriteString(fmt.Sprintf(searchItem, componenter.GetLabel(), componenter.Html(t.Multiple(4))))
+			bufAdvanced.WriteString(fmt.Sprintf(searchItem, componenter.GetLabel(), componenter.GetHtml(t.Multiple(4))))
 			bufAdvanced.WriteString(t.Multiple(3) + "</a-col>\n")
 		}
 	}

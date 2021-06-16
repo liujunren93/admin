@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/liujunren93/admin/core"
 	"github.com/liujunren93/admin/server"
+	"github.com/liujunren93/admin/view/page/Info"
 	"github.com/liujunren93/admin/view/page/api"
 	"github.com/liujunren93/admin/view/page/table"
 	"go/ast"
@@ -46,5 +47,13 @@ func TestApi(t *testing.T) {
 	path := core.ParsePath("./test")
 
 	api.BuildApi("./tt/router",path)
+
+}
+
+func TestInfo(t *testing.T) {
+
+	path := core.ParsePath("./test")
+
+	Info.BuildInfo("./tt",path)
 
 }

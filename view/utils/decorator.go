@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"github.com/liujunren93/admin/utils"
 	"time"
 )
 
@@ -20,9 +21,9 @@ func Decorator(name, msg string, defVal interface{}, isRequired bool) string {
 		rule = fmt.Sprintf(`rules: [{ required: true, message: '%s' }]`, msg)
 	}
 	if rule != "" {
-		return fmt.Sprintf(`v-decorator="['%s',{'%s',initialValue:%v}]"`, name, rule, defVal)
+		return fmt.Sprintf(`v-decorator="['%s',{'%s',initialValue:%v}]"`, utils.SnakeString(name), rule, defVal)
 	} else {
-		return fmt.Sprintf(`v-decorator="[%s, {initialValue:%v }]"`, name, defVal)
+		return fmt.Sprintf(`v-decorator="['%s', {initialValue:%v }]"`,utils.SnakeString(name) , defVal)
 	}
 
 }

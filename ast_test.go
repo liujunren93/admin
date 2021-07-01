@@ -57,3 +57,11 @@ func TestInfo(t *testing.T) {
 	Info.BuildInfo("./tt",path)
 
 }
+
+func TestRbac(t *testing.T) {
+
+	path := core.ParsePath("./test")
+server.BuildSql(path...)
+	//Info.BuildInfo("./tt",path)
+
+}

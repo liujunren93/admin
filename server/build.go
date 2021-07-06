@@ -3,12 +3,22 @@ package server
 import (
 	"github.com/liujunren93/admin/global"
 	"os"
+	"path/filepath"
 )
 
 func Build(fileType string,files ...File)  {
-	os.MkdirAll(global.FilePath[fileType],0666)
+	abs, err := filepath.Abs(global.ApiRoot+"/"+global.FilePath[fileType])
+	if err != nil {
+		panic(err)
+	}
+
+	err = os.MkdirAll(abs, 0666)
+	if err != nil {
+		panic(err)
+	}
 	for _, file := range files {
-		create, err := os.Create(global.FilePath[fileType]+"/"+file.Name + ".go")
+		abs, err := filepath.Abs(abs+"/"+file.Name + ".go")
+		create, err := os.Create(abs)
 
 		if err != nil {
 			panic(err)

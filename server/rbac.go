@@ -5,11 +5,16 @@ import (
 	"github.com/liujunren93/admin/core"
 	"github.com/liujunren93/admin/global"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
-func BuildSql(groups ...*core.Group)  {
-	create, err := os.Create(global.FilePath[global.TypeDb]+"/rbac.sql")
+func NewRbac(groups ...*core.Group)  {
+	abs, err := filepath.Abs(global.ApiRoot+"/"+global.FilePath[global.TypeDb]+"/rbac.sql")
+	if err != nil {
+		panic(err)
+	}
+	create, err := os.Create(abs)
 	if err != nil {
 		panic(err)
 	}

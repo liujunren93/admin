@@ -12,8 +12,8 @@ import (
 var table string
 
 
-func BuildPage(path string,groups []*core.Group) {
-
+func BuildPage(groups []*core.Group) {
+	path:=global.WebRoot
 	for _, group := range groups {
 		for _, dom := range group.List {
 			p := parseDom(*dom)

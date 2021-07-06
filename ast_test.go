@@ -1,4 +1,4 @@
-package admin
+package main
 
 import (
 	"fmt"
@@ -39,14 +39,14 @@ func TestTable(t *testing.T) {
 
 	path := core.ParsePath("./test")
 
-table.BuildPage("./tt",path)
+table.BuildPage(path)
 
 }
 func TestApi(t *testing.T) {
 
 	path := core.ParsePath("./test")
 
-	api.BuildApi("./tt",path)
+	api.BuildPage(path)
 
 }
 
@@ -54,13 +54,13 @@ func TestInfo(t *testing.T) {
 
 	path := core.ParsePath("./test")
 
-	Info.BuildInfo("./tt",path)
+	info.BuildPage(path)
 
 }
 
 func TestRbac(t *testing.T) {
 	path := core.ParsePath("./test")
-	server.BuildSql(path...)
+	server.NewRbac(path...)
 	//Info.BuildInfo("./tt",path)
 
 }

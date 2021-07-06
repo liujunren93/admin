@@ -1,21 +1,23 @@
 package global
 
 const (
-	TypeCtrl   = "ctrl"
-	TypeDao    = "dao"
-	TypeModel  = "model"
-	TypeEntity = "entity"
-	TypeDb     = "db"
-	TypeRouter = "router"
-	TypeUtils  = "utils"
-	TypeConf   = "conf"
-	TypeHView  = "hView"
-	TypeHApi   = "hApi"
-	TypeHRouter   = "hrouter"
+	TypeCtrl    = "ctrl"
+	TypeDao     = "dao"
+	TypeModel   = "model"
+	TypeEntity  = "entity"
+	TypeDb      = "db"
+	TypeRouter  = "router"
+	TypeUtils   = "utils"
+	TypeConf    = "conf"
+	TypeHView   = "hView"
+	TypeHApi    = "hApi"
+	TypeHRouter = "hrouter"
 )
 
 var (
+	ApiRoot  = ""
 	Mod      = "" //go mod
+	WebRoot  = ""
 	FilePath = map[string]string{
 		TypeCtrl:   "handler/ctrl",
 		TypeEntity: "handler/entity",
@@ -25,7 +27,7 @@ var (
 		TypeRouter: "router",
 		TypeUtils:  "handler/utils",
 		TypeConf:   "conf",
-		TypeHView:  "src/views",
-		TypeHApi:   "src/config/routers",
+		TypeHView:  "/src/views",
+		TypeHApi:   "/src/config/routers",
 	}
 )

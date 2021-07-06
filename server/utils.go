@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"github.com/liujunren93/admin/global"
 	"os"
+	"path/filepath"
 )
 
 const utilsDir = "utils"
@@ -12,12 +13,16 @@ const utilsDir = "utils"
 var utilsStr string
 
 func NewUtils() {
-	err := os.MkdirAll(global.FilePath[global.TypeUtils], 0777)
+	path, err := filepath.Abs(global.ApiRoot + "/" + global.FilePath[global.TypeUtils])
+	if err != nil {
+		panic(err)
+	}
+	err = os.MkdirAll(path, 0777)
 	if err != nil {
 		panic(err)
 	}
 
-	create, err := os.Create(global.FilePath[global.TypeUtils] + "/utils.go")
+	create, err := os.Create(path + "/utils.go")
 	if err != nil {
 		panic(err)
 	}

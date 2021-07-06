@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"github.com/liujunren93/admin/global"
 	"os"
+	"path/filepath"
 )
 
 const confDir = "config"
@@ -15,18 +16,22 @@ var confStr string
 var ymlStr string
 
 func NewConfigFile() {
-	err := os.MkdirAll(global.FilePath[global.TypeConf], 0777)
+	abs, err := filepath.Abs(global.ApiRoot + "/" + global.FilePath[global.TypeConf])
+	if err != nil {
+		panic(err)
+	}
+	err = os.MkdirAll(abs, 0777)
 	if err != nil {
 		panic(err)
 	}
 	// 创建结构体
-	create, err := os.Create(global.FilePath[global.TypeConf] + "/conf.go")
+	create, err := os.Create(abs+ "/conf.go")
 	if err != nil {
 		panic(err)
 	}
 	create.WriteString(confStr)
 	// 创建yaml文件
-	yml, err := os.Create(global.FilePath[global.TypeConf] + "/conf.yml")
+	yml, err := os.Create(abs + "/conf.yml")
 	if err != nil {
 		panic(err)
 	}

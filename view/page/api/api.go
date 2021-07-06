@@ -3,13 +3,14 @@ package api
 import (
 	"fmt"
 	"github.com/liujunren93/admin/core"
+	"github.com/liujunren93/admin/global"
 	"github.com/liujunren93/admin/utils"
 
 	"os"
 )
 
-func BuildApi(path string, groups []*core.Group) {
-	path+="/api/"
+func BuildPage( groups []*core.Group) {
+	path:=global.WebRoot+"/api/"
 	err := os.MkdirAll(path, 0766)
 	if err != nil {
 		panic(err)

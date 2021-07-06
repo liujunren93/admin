@@ -1,4 +1,4 @@
-package Info
+package info
 
 import (
 	_ "embed"
@@ -11,8 +11,8 @@ import (
 
 //go:embed info.vue
 var info string
-func BuildInfo(path string,groups []*core.Group)  {
-
+func BuildPage(groups []*core.Group)  {
+	path:=global.WebRoot
 	for _, group := range groups {
 		for _, dom := range group.List {
 			filePath:=path+"/"+global.FilePath[global.TypeHView]+"/" + dom.Name

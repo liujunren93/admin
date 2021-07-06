@@ -1,0 +1,30 @@
+system:
+  name:
+    "zb"
+  runModel: # 3种类型, 'debug', 'release', 'test'
+    "debug"
+  httpPort:
+    700
+  logPath:
+    "logs1"
+  jwtSecret:
+    "12"
+mysql:
+  host:
+    "127.0.0.1"
+  user:
+    "root"
+  password:
+    "root"
+  port:
+    3306
+  db:
+    "curd"
+redis:
+  use:
+    true
+  host:
+    "s"
+  password:
+    "ss"
+

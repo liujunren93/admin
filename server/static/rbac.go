@@ -23,8 +23,8 @@ type RolePermission struct {
 
 type Permission struct {
 	gorm.Model
-	Name string `gorm:"type:varchar(100);not null;default:""`
-	Hash string `gorm:"type:char(56);not null;default:""`
+	Name string `gorm:"name;type:int;not null;default:0;comment:''"`
+	Hash string `gorm:"hash;type:int;not null;default:0;comment:''"`
 }
 type PermissionUrl struct {
 	gorm.Model

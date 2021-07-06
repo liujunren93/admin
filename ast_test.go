@@ -59,9 +59,14 @@ func TestInfo(t *testing.T) {
 }
 
 func TestRbac(t *testing.T) {
-
 	path := core.ParsePath("./test")
-server.BuildSql(path...)
+	server.BuildSql(path...)
+	//Info.BuildInfo("./tt",path)
+
+}
+func TestConf(t *testing.T) {
+	//path := core.ParsePath("./test")
+	server.NewConfigFile()
 	//Info.BuildInfo("./tt",path)
 
 }

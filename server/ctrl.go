@@ -31,11 +31,11 @@ func NewCtrl(gs ...*core.Group) {
 			if dom.HasSearch || dom.HPagination {
 				importEntity = true
 			}
-			class.AddFunc(NewFunc(dom.Name+"List", "ctx *gin.context", "", listCtrlStr(dom.Name, dom.Name, dom.HasSearch, dom.HPagination)))
-			class.AddFunc(NewFunc(dom.Name+"Create", "ctx *gin.context", "", createCtrlStr(dom.Name, dom.Name)))
-			class.AddFunc(NewFunc(dom.Name+"Update", "ctx *gin.context", "", updateCtrlStr(dom.Name, dom.Name)))
-			class.AddFunc(NewFunc(dom.Name+"Info", "ctx *gin.context", "", infoCtrlStr(dom.Name)))
-			class.AddFunc(NewFunc(dom.Name+"Delete", "ctx *gin.context", "", delCtrlStr(dom.Name)))
+			class.AddFunc(NewFunc(dom.Name+"List", "ctx *gin.Context", "", listCtrlStr(dom.Name, dom.Name, dom.HasSearch, dom.HPagination)))
+			class.AddFunc(NewFunc(dom.Name+"Create", "ctx *gin.Context", "", createCtrlStr(dom.Name, dom.Name)))
+			class.AddFunc(NewFunc(dom.Name+"Update", "ctx *gin.Context", "", updateCtrlStr(dom.Name, dom.Name)))
+			class.AddFunc(NewFunc(dom.Name+"Info", "ctx *gin.Context", "", infoCtrlStr(dom.Name)))
+			class.AddFunc(NewFunc(dom.Name+"Delete", "ctx *gin.Context", "", delCtrlStr(dom.Name)))
 		}
 		if importEntity {
 			f.Import = append(f.Import, global.Mod+"/"+global.FilePath["entity"])
@@ -70,7 +70,7 @@ func listCtrlStr(entClassName, daoClassName string, search, pagination bool) (bo
 		bodyStr = fmt.Sprintf(code, entClassName, daoClassName)
 		return
 	} else {
-		code = `list:= dao.%sDao{}.List()
+		code = `list:= dao.%sDao().List()
 	utils.ResSuccessJson(ctx, "ok", list)`
 	}
 

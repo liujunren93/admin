@@ -25,7 +25,7 @@ var (
 		TypeDao:    "handler/dao",
 		TypeDb:     "db",
 		TypeRouter: "router",
-		TypeUtils:  "handler/utils",
+		TypeUtils:  "utils",
 		TypeConf:   "conf",
 		TypeHView:  "/src/views",
 		TypeHApi:   "/src/config/routers",

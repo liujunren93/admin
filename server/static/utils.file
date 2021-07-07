@@ -40,3 +40,13 @@ func ResErrJson(ctx *gin.Context,code int, err error, data interface{}) {
 	ctx.JSON(200, response)
 	return
 }
+
+func ResErr400Json(ctx *gin.Context, err error, data interface{}) {
+	response := Response{
+		Code: 400,
+		Msg:  err.Error(),
+		Data: data,
+	}
+	ctx.JSON(200, response)
+	return
+}

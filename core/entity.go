@@ -26,10 +26,10 @@ func (f *Field) FindTagVal(tag, attribute string) string {
 }
 
 type Dom struct {
-	Name        string
-	HName       string
-	HPagination bool
-	HasSearch   bool
+	Name        string //struct name
+	HName       string //网页名
+	HPagination bool // 是否分页
+	HasSearch   bool // 是否支持搜索
 	Fields      []Field
 }
 

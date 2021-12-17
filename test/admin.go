@@ -1,7 +1,7 @@
 package test
 
 import "gorm.io/gorm"
-//@curd:name=管理员;page=管理员
+//@curd:name=管理员;page=true
 type Admin struct {
 	gorm.Model
 	//@curd:name=管理员;search=true;type=select(banner);sort=1

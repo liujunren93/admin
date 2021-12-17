@@ -67,7 +67,7 @@ func parse(asf *ast.File) *Group {
 	return &g
 
 }
-
+// 解析ast.GenDecl
 func parseGenDecl(g *ast.GenDecl) *Dom {
 
 	if g.Doc == nil {

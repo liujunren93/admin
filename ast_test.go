@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/liujunren93/admin/core"
 	"github.com/liujunren93/admin/server"
-	"github.com/liujunren93/admin/view/page/Info"
 	"github.com/liujunren93/admin/view/page/api"
+	"github.com/liujunren93/admin/view/page/info"
 	"github.com/liujunren93/admin/view/page/table"
 	"go/ast"
 	"go/parser"
@@ -16,7 +16,7 @@ import (
 func TestParseFile(t *testing.T) {
 	set := token.NewFileSet()
 	file, _ := parser.ParseFile(set, "./test/admin.go", nil, 4)
-	ast.Print(set,file)
+	ast.Print(set, file)
 
 }
 
@@ -29,7 +29,7 @@ func TestParsePath(t *testing.T) {
 	path := core.ParsePath("./test")
 	for _, group := range path {
 		for _, dom := range group.List {
-			fmt.Printf("%+v\n",dom)
+			fmt.Printf("%+v\n", dom)
 		}
 	}
 	server.NewRoute(path...)
@@ -39,7 +39,7 @@ func TestTable(t *testing.T) {
 
 	path := core.ParsePath("./test")
 
-table.BuildPage(path)
+	table.BuildPage(path)
 
 }
 func TestApi(t *testing.T) {
